@@ -50,7 +50,7 @@ app.config["dev"] = False
 if app.config["dev"]:
 	port = 3000
 else:
-	port = os.environ.get("PORT")
+	port = os.getenv("PORT")
 mojangapi = "https://api.mojang.com/"
 minecraftsessionapi = "https://sessionserver.mojang.com/"
 app.static("/assets", "./assets")
@@ -97,4 +97,4 @@ async def api_player_skin(request):
 app.blueprint(api)
 app.blueprint(main)
 if __name__ == "__main__":
-	app.run(port=port, dev=app.config["dev"])
+	app.run(host="0.0.0.0", port=port, dev=app.config["dev"])
