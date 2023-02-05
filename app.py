@@ -46,7 +46,7 @@ def getPlayerDataUUID(player_uuid: str):
 	}
 
 app = Sanic(__name__)
-app.config["dev"] = True
+app.config["dev"] = False
 if app.config["dev"]:
 	port = 3000
 else:
