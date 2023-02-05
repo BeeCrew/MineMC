@@ -1,2 +1,3 @@
 requests
+sanic
 sanic[ext]

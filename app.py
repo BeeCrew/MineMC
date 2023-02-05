@@ -46,8 +46,7 @@ def getPlayerDataUUID(player_uuid: str):
 	}
 
 app = Sanic(__name__)
-app.config["dev"] = False
-host = "0.0.0.0"
+app.config["dev"] = True
 if app.config["dev"]:
 	port = 3000
 else:
@@ -98,4 +97,4 @@ async def api_player_skin(request):
 app.blueprint(api)
 app.blueprint(main)
 if __name__ == "__main__":
-	app.run(host=host, port=port, dev=app.config["dev"])
+	app.run(port=port, dev=app.config["dev"])
