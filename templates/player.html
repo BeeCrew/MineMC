@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{%block title%}{{player['username']}}{%endblock%}
+{%block titlesuffix%} - {%endblock%}
+{% block head %}
+<link rel="shortcut icon" href="https://minotar.net/avatar/{{player['username']}}.png" type="image/png">
+<script src="https://bs-community.github.io/skinview3d/js/skinview3d.bundle.js"></script>
+{% endblock %}
+{% block body %}
+<canvas style="position:relative;border-radius:10px;top:1em;left:1em;" id="skin_container"></canvas>
+<button id="pausebtn" style="position:relative;top:-22em;left:1.5em;" class="btn btn-link">
+	<i class="fa-solid fa-play"></i>
+</button>
+<div style="position:relative;top:-22em;left:20em;min-width:1em;max-width:10em;">{% include "includes/playerdata.html" %}</div>
+<div style="position:relative;top:-5em;left:1em;right:1em;min-width:1em;max-width:28em;">
+	{%with link = player['card_url']%}
+	<label for="card-link">Card for embedding: </label><input style="background:rgb(49, 49, 49);" class="form-control" type="text" value="{{link}}" readonly id="card-link">
+	<a style="border-radius:1em;" href="{{link}}" class="btn btn-primary mt-2">Open</a>
+	{%endwith%}
+</div>
+<script>
+	let player_data = {
+		username: "{{player['username']}}",
+		uuid: "{{player['uuid']}}",
+		skin_url: "{{player['skin_url']}}"
+	}
+	let Animation = new skinview3d.WalkingAnimation();
+	let skinViewer = new skinview3d.SkinViewer({
+		canvas: document.getElementById("skin_container"),
+		width: 300,
+		height: 400,
+		skin: player_data.skin_url
+	});
+	skinViewer.fov = 11;
+	skinViewer.zoom = 0.5;
+	skinViewer.animation = Animation;
+	skinViewer.animation.speed = 1;
+	skinViewer.nameTag = player_data.username;
+	skinViewer.loadPanorama("/assets/img/panorama.png");
+	
+	let pausebtn = document.getElementById("pausebtn");
+	pausebtn.addEventListener("click", (event) => {
+		if (!(skinViewer.animation.paused)) {
+			skinViewer.animation.paused = true;
+		} else {
+			skinViewer.animation.paused = false;
+		}
+	});
+</script>
+{% endblock %}
